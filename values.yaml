@@ -1,0 +1,61 @@
+replicaCount: 1
+
+image:
+  repository: juanmigueld/api_names
+  tag: "1.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+env:
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/BaseNombre?createDatabaseIfNotExist=true"
+
+secret:
+  name: secret
+  usernameKey: DB_USERNAME
+  passwordKey: DB_PASSWORD
+
+resources:
+  requests:
+    cpu: "250m"
+    memory: "512Mi"
+
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 5
+  cpuUtilization: 75
+
+ingress:
+  enabled: true
+  rules:
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: front
+            servicePort: 80
+
+    - host: ""
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            serviceName: front
+            servicePort: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            serviceName: api-names-service
+            servicePort: 8080
+
+serviceAccount:
+  create: false  
+  name: "api-names-sa"
+  automount: true
+  annotations: {}
