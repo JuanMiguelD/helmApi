@@ -33,15 +33,7 @@ hpa:
 ingress:
   enabled: true
   rules:
-    - host: ""
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            serviceName: front
-            servicePort: 80
-
-    - host: ""
+    - host: "174.138.104.110"
       paths:
         - path: /
           pathType: Prefix
