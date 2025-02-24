@@ -33,7 +33,7 @@ hpa:
 ingress:
   enabled: true
   rules:
-    - host: "174.138.104.110"
+    - host: ""
       paths:
         - path: /
           pathType: Prefix
